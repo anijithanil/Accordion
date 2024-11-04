@@ -23,18 +23,22 @@ export default function App() {
   return (
     <div>
       <Accordion data={faqs} />
+      
     </div>
   );
 }
 
 function Accordion({data}) {
+  const [currentOpen,setCurrentOpen] = useState(0)
+
   return <div className="accordion">
-    {data.map((ele,key)=><AccordianItem num={key} title={ele.title} text={ele.text} />)}
-  </div>;
+    {data.map((ele,key)=><AccordianItem2 num={key} title={ele.title} text={ele.text} open={currentOpen} setOpen={setCurrentOpen}/>)}
+  </div>
 }
 
 function AccordianItem({num,title,text}){
   const [accord,setAccord]=useState(false)
+
 
   return(
     <div onClick={()=>setAccord(!accord)} className={`item ${accord?"open":""}`}>
@@ -45,3 +49,22 @@ function AccordianItem({num,title,text}){
     </div>
   );
 }
+function AccordianItem2({num,title,text,open,setOpen}){
+  const isopen = open === num
+  
+  function accorFun(num){
+    setOpen(num)
+    
+  }
+
+
+  return(
+    <div onClick={()=>accorFun(num)} className={`item ${isopen?"open":""}`}>
+      <p className="number">{num<9? `0${num+1}`: num+1}</p>
+      <p className="title">{title}</p>
+      <p  className="icon">{isopen?"-":"+"}</p>
+      {isopen && <div className="content-box">{text}</div>}
+    </div>
+  );
+}
+
